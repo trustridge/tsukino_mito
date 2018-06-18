@@ -10,16 +10,32 @@ class Application
 
     private static $request;
 
-    function __construct()
+    public function __construct()
     {
-        self::$request = [
+        self::setSlackRequest();
+        self::middleware();
+    }
+
+    /**
+     * // TODO: SlackRequestクラス作ろう
+     * @return void
+     */
+    private static function setSlackRequest(): void
+    {
+        $request = [
             'token'        => $_POST['token'] ?? null,
             'channel_id'   => $_POST['channel_id'] ?? null,
+            'user_name'    => $_POST['user_name'] ?? null,
             'trigger_word' => $_POST['trigger_word'] ?? null,
             'text'         => $_POST['text'] ?? null,
+            'argument'     => trim(str_replace($_POST['trigger_word'], '', $_POST['text'])),
         ];
+        // slackリマインダー機能による投稿の場合、自動で追加される末尾ピリオドを除去します
+        if ($request['user_name'] === 'slackbot' && strpos($request['trigger_word'], 'リマインダー : ') === 0) {
+            $request['argument'] = rtrim($request['argument'], '.');
+        }
 
-        self::middleware();
+        self::$request = $request;
     }
 
     /**

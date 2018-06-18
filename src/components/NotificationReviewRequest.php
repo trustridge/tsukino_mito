@@ -24,7 +24,7 @@ class NotificationReviewRequest
         $githubPassword = getenv('GITHUB_PASSWORD');
 
         self::$gitRepoOwner  = getenv('GIT_REPO_OWNER');
-        self::$gitRepository = trim(str_replace($request['trigger_word'], '', $request['text']));
+        self::$gitRepository = $request['argument'];
         if (empty(self::$gitRepository)) {
             self::response('リポジトリ名を指定してください！');
             exit;
