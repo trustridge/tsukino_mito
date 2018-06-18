@@ -100,6 +100,7 @@ class Application
                 exit;
                 break;
             case 'ﾚﾋﾞｭｰﾏｰﾝ':
+            case 'リマインダー : ﾚﾋﾞｭｰﾏｰﾝ':
                 self::run(Components\NotificationReviewRequest::class);
                 exit;
                 break;
