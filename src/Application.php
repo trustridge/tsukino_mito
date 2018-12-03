@@ -96,7 +96,7 @@ class Application
                 exit;
                 break;
             case ':リリース作成':
-                self::run(Components\CreateGitHubReleaseBranch::class);
+                self::run(Components\CreateGitHubReleasePullRequest::class);
                 exit;
                 break;
             case 'ﾚﾋﾞｭｰﾏｰﾝ':
