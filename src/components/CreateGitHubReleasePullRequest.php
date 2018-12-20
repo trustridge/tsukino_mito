@@ -101,7 +101,7 @@ class CreateGitHubReleasePullRequest
      */
     private static function getPullRequestTitle()
     {
-        $pullRequestTitle = 'release '.self::$now->format('Y-m-d');
+        $pullRequestTitle = $pullRequestTitleOriginal = 'release '.self::$now->format('Y-m-d');
         $pullRequestList = self::$githubClient
             ->api('pull_request')
             ->all(self::$gitRepoOwner, self::$repository, ['state' => 'all']);
@@ -109,7 +109,6 @@ class CreateGitHubReleasePullRequest
 
         $releasePullRequestSuffix = '';
         while (1) {
-            $pullRequestTitle .= $releasePullRequestSuffix;
             if (!in_array($pullRequestTitle, $pullRequestTitleList)) {
                 break;
             }
@@ -117,6 +116,7 @@ class CreateGitHubReleasePullRequest
             $releasePullRequestSuffix = empty($releasePullRequestSuffix)
                 ? '_2'
                 : '_'.((int)ltrim($releasePullRequestSuffix, '_') + 1);
+            $pullRequestTitle = $pullRequestTitleOriginal.$releasePullRequestSuffix;
         }
 
         return $pullRequestTitle;
