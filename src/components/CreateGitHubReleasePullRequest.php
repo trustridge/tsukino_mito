@@ -109,8 +109,7 @@ class CreateGitHubReleasePullRequest
 
         $releasePullRequestSuffix = '';
         while (1) {
-            $pullRequestTitle .= $releasePullRequestSuffix;
-            if (!in_array($pullRequestTitle, $pullRequestTitleList)) {
+            if (!in_array($pullRequestTitle.$releasePullRequestSuffix, $pullRequestTitleList)) {
                 break;
             }
 
@@ -119,6 +118,6 @@ class CreateGitHubReleasePullRequest
                 : '_'.((int)ltrim($releasePullRequestSuffix, '_') + 1);
         }
 
-        return $pullRequestTitle;
+        return $pullRequestTitle.$releasePullRequestSuffix;
     }
 }
